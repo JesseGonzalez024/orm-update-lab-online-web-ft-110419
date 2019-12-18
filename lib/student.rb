@@ -9,6 +9,7 @@ class Student
     @grade = grade
     @id = id
   end
+  
   def self.create_table
     sql = <<-SQL
     CREATE TABLE students (
@@ -18,12 +19,14 @@ class Student
     SQL
     DB[:conn].execute(sql)
   end
+  
   def self.drop_table
     sql = <<-SQL
     DROP TABLE students
     SQL
     DB[:conn].execute(sql)
   end
+  
   def save
     if self.id
       self.update
@@ -36,10 +39,12 @@ class Student
       @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
     end
   end
+  
   def self.create(name, grade)
     student = Student.new(name, grade)
     student.save
   end
+  
   def self.new_from_db(row)
     new_student = self.new(row[0], row[1], row[2])   
   end
